@@ -11,7 +11,7 @@ jobs:
       - id: bump
         uses: UKHomeOffice/match-label-action@v1
         with:
-          allowed: <major>,<minor>,<patch>
+          allowed: major,minor,patch
       - uses: UKHomeOffice/semver-release-action@v3
         with:
           bump: ${{ steps.bump.outputs.match }}
