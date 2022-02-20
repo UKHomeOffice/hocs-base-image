@@ -1,5 +1,3 @@
-# Hocs-Base-Image
 
-Base docker image for the DECS project with `openjdk17-jre`
-
----
+# hocs-base-image - test
+Base docker Image for the DECS project
