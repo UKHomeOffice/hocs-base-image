@@ -13,7 +13,7 @@ jobs:
         with:
           allowed: major, minor, patch
       - id: tag
-      - uses: UKHomeOffice/semver-release-action@v2
+        uses: UKHomeOffice/semver-release-action@v2
         with:
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
