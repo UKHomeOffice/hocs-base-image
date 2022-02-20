@@ -12,7 +12,7 @@ jobs:
         uses: UKHomeOffice/match-label-action@v3
         with:
           allowed: major, minor, patch
-      - uses: UKHomeOffice/semver-release-action@v2
+      - uses: UKHomeOffice/semver-release-action@v3
         with:
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
