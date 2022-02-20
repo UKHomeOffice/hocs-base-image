@@ -5,14 +5,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  tag:
+  semVer:
     runs-on: ubuntu-latest
     steps:
       - id: bump
-        uses: UKHomeOffice/match-label-action@v3
+        uses: UKHomeOffice/match-label-action@v2
         with:
           allowed: major, minor, patch
-      - uses: UKHomeOffice/semver-release-action@v3
+      - id: tag
+      - uses: UKHomeOffice/semver-release-action@v2
         with:
           bump: ${{ steps.bump.outputs.match }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
