@@ -1,3 +1,3 @@
 
-# hocs-base-image - test test test test test test
+# hocs-base-image
 Base docker Image for the DECS project
