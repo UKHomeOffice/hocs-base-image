@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: bump
-        uses: zwaldowski/match-label-action@v1
+        uses: UKHomeOffice/match-label-action@v1
         with:
           allowed: major,minor,patch
       - uses: UKHomeOffice/semver-release-action@v3
