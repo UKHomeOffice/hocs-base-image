@@ -1,4 +1,5 @@
 # Hocs-Base-Image
+[![Build Status](https://drone-gh.acp.homeoffice.gov.uk/api/badges/UKHomeOffice/hocs-base-image/status.svg)](https://drone-gh.acp.homeoffice.gov.uk/UKHomeOffice/hocs-base-image)
 
 ---
 
