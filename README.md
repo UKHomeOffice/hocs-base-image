@@ -4,7 +4,6 @@
 
 Minimal docker image for JVM based DECS services.
 
-
 * `Alpine 3.15`
 * `openjdk17-jre` 
 
