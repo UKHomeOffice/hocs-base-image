@@ -60,7 +60,7 @@ steps:
         exclude:
           - main
     depends_on:
-      - clone
+      - build & push
 
   - name: build & push latest jdk
     image: plugins/docker
@@ -80,7 +80,7 @@ steps:
         include:
           - main
     depends_on:
-      - clone
+      - build & push latest
 trigger:
   event:
     - push
