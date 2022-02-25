@@ -48,7 +48,7 @@ steps:
     settings:
       dockerfile: Dockerfile-jdk
       registry: quay.io
-      repo: quay.io/ukhomeofficedigital/hocs-base-image
+      repo: quay.io/ukhomeofficedigital/hocs-base-image-build
       tags:
         - ${DRONE_COMMIT_SHA}
     environment:
