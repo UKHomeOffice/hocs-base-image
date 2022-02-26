@@ -43,10 +43,10 @@ steps:
     depends_on:
       - clone
 
-  - name: build & push jdk
+  - name: build & push build
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-jdk
+      dockerfile: Dockerfile-build
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-base-image-build
       tags:
@@ -62,10 +62,10 @@ steps:
     depends_on:
       - build & push
 
-  - name: build & push latest jdk
+  - name: build & push build latest
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-jdk
+      dockerfile: Dockerfile-build
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-base-image-build
       tags:
@@ -99,7 +99,7 @@ steps:
         exclude:
           - main
     depends_on:
-      - build & push jdk
+      - build & push build
 
   - name: build & push latest
     image: plugins/docker
@@ -119,12 +119,12 @@ steps:
         include:
           - main
     depends_on:
-      - build & push latest jdk
+      - build & push build latest
 
-  - name: build & push libreoffice jdk
+  - name: build & push build libreoffice
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-libreoffice-jdk
+      dockerfile: Dockerfile-libreoffice-build
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
       tags:
@@ -140,10 +140,10 @@ steps:
     depends_on:
       - build & push libreoffice
 
-  - name: build & push latest libreoffice jdk
+  - name: build & push build libreoffice latest
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-libreoffice-jdk
+      dockerfile: Dockerfile-libreoffice-build
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
       tags:
@@ -158,7 +158,8 @@ steps:
         include:
           - main
     depends_on:
-      - build & push latest libreoffice
+      - build & push libreoffice latest
+
 trigger:
   event:
     - push
