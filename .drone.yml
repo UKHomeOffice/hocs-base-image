@@ -121,6 +121,45 @@ steps:
     depends_on:
       - build & push latest jdk
 
+  - name: build & push libreoffice jdk
+    image: plugins/docker
+    settings:
+      dockerfile: Dockerfile-libreoffice-jdk
+      registry: quay.io
+      repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
+      tags:
+        - ${DRONE_COMMIT_SHA}
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: QUAY_ROBOT_TOKEN
+      DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
+    when:
+      branch:
+        exclude:
+          - main
+    depends_on:
+      - build & push libreoffice
+
+  - name: build & push libreoffice jdk latest
+    image: plugins/docker
+    settings:
+      dockerfile: Dockerfile-libreoffice-jdk
+      registry: quay.io
+      repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
+      tags:
+        - ${DRONE_COMMIT_SHA}
+        - latest
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: QUAY_ROBOT_TOKEN
+      DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
+    when:
+      branch:
+        include:
+          - main
+    depends_on:
+      - build & push libreoffice latest
+
 trigger:
   event:
     - push
