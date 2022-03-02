@@ -2,7 +2,7 @@
 
 ---
 
-A collection of 'production' and 'build images used in the Hocs Project
+A collection of 'production' and 'build' images used in the Hocs Project
 
 
 ## Hocs-Base-Image
@@ -23,8 +23,6 @@ Minimal docker image for CI/CD builds.
 * `Alpine 3.15`
 * `openjdk17-jdk` 
 * `curl`
-
-Creates `user_hocs` to run code as non-root
 
 Published to https://quay.io/repository/ukhomeofficedigital/hocs-base-image-build
 
