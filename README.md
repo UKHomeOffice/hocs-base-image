@@ -23,6 +23,7 @@ Minimal docker image for CI/CD builds.
 * `Alpine 3.15`
 * `openjdk17-jdk` 
 * `curl`
+* `diffutils`
 
 Published to https://quay.io/repository/ukhomeofficedigital/hocs-base-image-build
 
