@@ -28,7 +28,7 @@ steps:
   - name: build & push jdk
     image: plugins/docker
     settings:
-      dockerfile: base-build/Dockerfile-jdk
+      dockerfile: base-build/Dockerfile
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-base-image-build
       tags:
@@ -43,7 +43,7 @@ steps:
   - name: build & push libreoffice
     image: plugins/docker
     settings:
-      dockerfile: libreoffice-base/Dockerfile-libreoffice
+      dockerfile: libreoffice-base/Dockerfile
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-libreoffice
       tags:
@@ -58,7 +58,7 @@ steps:
   - name: build & push libreoffice jdk
     image: plugins/docker
     settings:
-      dockerfile: libreoffice-base-build/Dockerfile-libreoffice-jdk
+      dockerfile: libreoffice-base-build/Dockerfile
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
       tags:
@@ -101,7 +101,7 @@ steps:
   - name: build & push latest jdk
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-jdk
+      dockerfile: Dockerfile
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-base-image-build
       tags:
@@ -118,7 +118,7 @@ steps:
   - name: build & push libreoffice latest
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-libreoffice
+      dockerfile: Dockerfile
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-libreoffice
       tags:
@@ -135,7 +135,7 @@ steps:
   - name: build & push libreoffice jdk latest
     image: plugins/docker
     settings:
-      dockerfile: Dockerfile-libreoffice-jdk
+      dockerfile: Dockerfile-jdk
       registry: quay.io
       repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
       tags:
