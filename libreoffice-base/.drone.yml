@@ -1,7 +1,7 @@
 ---
 kind: pipeline
 type: kubernetes
-name: build
+name: build libreoffice-base
 trigger:
   event:
     - push
@@ -28,7 +28,7 @@ steps:
 ---
 kind: pipeline
 type: kubernetes
-name: build tag
+name: build libreoffice-base tag
 trigger:
   event:
     - tag
