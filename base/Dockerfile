@@ -8,4 +8,5 @@ RUN apk upgrade --no-cache && apk add --no-cache openjdk17-jre
 
 USER 10000
 
+
 WORKDIR /app

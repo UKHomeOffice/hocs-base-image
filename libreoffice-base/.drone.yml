@@ -1,0 +1,54 @@
+---
+kind: pipeline
+type: kubernetes
+name: build
+trigger:
+  event:
+    - push
+  branch:
+    exclude:
+      - main
+
+steps:
+  - name: build & push libreoffice
+    image: plugins/docker
+    settings:
+      dockerfile: libreoffice-base/Dockerfile
+      registry: quay.io
+      repo: quay.io/ukhomeofficedigital/hocs-libreoffice
+      tags:
+        - ${DRONE_COMMIT_SHA}
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: QUAY_ROBOT_TOKEN
+      DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
+    depends_on:
+      - clone
+
+---
+kind: pipeline
+type: kubernetes
+name: build tag
+trigger:
+  event:
+    - tag
+  branch:
+    - main
+
+steps:
+  - name: build & push libreoffice latest
+    image: plugins/docker
+    settings:
+      dockerfile: Dockerfile
+      registry: quay.io
+      repo: quay.io/ukhomeofficedigital/hocs-libreoffice
+      tags:
+        - ${DRONE_TAG}
+        - ${DRONE_COMMIT_SHA}
+        - latest
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: QUAY_ROBOT_TOKEN
+      DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
+    depends_on:
+      - clone
