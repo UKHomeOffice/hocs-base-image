@@ -1,7 +1,7 @@
-local pipeline(triggerName, stepsName) = {
+local pipeline(pipelineName, triggerName, stepsName) = {
     kind: "pipeline",
     type: "kubernetes",
-    name: "build",
+    name: pipelineName,
     trigger : triggerName,
     steps: stepsName
 };
@@ -24,11 +24,11 @@ local dockerBuild(imageTags) = {
     DOCKER_PASSWORD: {
         from_secret: "QUAY_ROBOT_TOKEN"
     },
-    DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
+    DOCKER_USERNAME: "ukhomeofficedigital+hocs_quay_robot"
   }
 };
 
 [
-pipeline("build base image branch", trigger("push", {exclude : [ "main" ]}), [DockerBuild(["${DRONE_COMMIT_SHA}"])] ),
-pipeline("build base image main", trigger("tag", "main"), [DockerBuild(["${DRONE_COMMIT_SHA}", "${DRONE_COMMIT_SHA}", "latest" ])] )
+pipeline("build base image branch", trigger("push", {exclude : [ "main" ]}), [dockerBuild(["${DRONE_COMMIT_SHA}"])] ),
+pipeline("build base image main", trigger("tag", "main"), [dockerBuild(["${DRONE_TAG}", "${DRONE_COMMIT_SHA}", "latest" ])] )
 ]
