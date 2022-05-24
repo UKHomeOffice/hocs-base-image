@@ -9,7 +9,7 @@ A collection of 'production' and 'build' images used in the Hocs Project
 
 Minimal docker image for JVM based DECS services.
 
-* `Alpine 3.15`
+* `Alpine`
 * `openjdk17-jre` 
 
 Creates `user_hocs` to run code as non-root
@@ -20,7 +20,7 @@ Published to https://quay.io/repository/ukhomeofficedigital/hocs-base-image
 
 Minimal docker image for CI/CD builds.
 
-* `Alpine 3.15`
+* `Alpine`
 * `openjdk17-jdk` 
 * `curl`
 * `diffutils`
@@ -31,7 +31,7 @@ Published to https://quay.io/repository/ukhomeofficedigital/hocs-base-image-buil
 
 Minimal docker image used as a base for hocs-docs-convertor. https://github.com/UKHomeOffice/hocs-docs-converter
 
-* `Alpine 3.15`
+* `Alpine`
 * `openjdk17-jre` 
 * `libreoffice`
 
@@ -43,7 +43,7 @@ Published to https://quay.io/repository/ukhomeofficedigital/hocs-libreoffice
 
 Minimal docker image used as a base for hocs-docs-convertor CI/CD builds.
 
-* `Alpine 3.15`
+* `Alpine`
 * `openjdk17-jdk` 
 * `curl`
 * `libreoffice`
