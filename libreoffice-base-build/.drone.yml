@@ -1,0 +1,24 @@
+---
+kind: pipeline
+type: kubernetes
+name: hocs-libreoffice-build build
+trigger:
+  event:
+    - push
+  branch:
+    exclude:
+      - main
+
+steps:
+  - name: build & push libreoffice jdk
+    image: plugins/docker
+    settings:
+      dockerfile: libreoffice-base-build/Dockerfile
+      registry: quay.io
+      repo: quay.io/ukhomeofficedigital/hocs-libreoffice-build
+      tags:
+        - ${DRONE_COMMIT_SHA}
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: QUAY_ROBOT_TOKEN
+      DOCKER_USERNAME: ukhomeofficedigital+hocs_quay_robot
