@@ -4,6 +4,6 @@ USER 0
 
 RUN adduser -D -u 1001 alpine
 
-RUN apk upgrade --no-cache && apk add --no-cache openjdk17 curl diffutils
+RUN apk add --no-cache openjdk17 curl diffutils
 
 USER 1001
