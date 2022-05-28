@@ -1,6 +1,6 @@
 FROM alpine:3.16.0
 
-USER root
+USER 0
 
 RUN apk upgrade --no-cache && apk add --no-cache openjdk17 curl diffutils
 
