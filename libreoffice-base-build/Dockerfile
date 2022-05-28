@@ -4,7 +4,6 @@ USER 0
 
 RUN adduser -D -u 1001 alpine
 
-RUN apk add --no-cache openjdk17 curl msttcorefonts-installer fontconfig libreoffice
-RUN update-ms-fonts
+RUN apk add --no-cache openjdk17 curl libreoffice
 
 USER 1001
