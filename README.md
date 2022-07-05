@@ -38,14 +38,3 @@ Minimal docker image used as a base for hocs-docs-convertor. https://github.com/
 Creates `user_hocs` to run code as non-root
 
 Published to https://quay.io/repository/ukhomeofficedigital/hocs-libreoffice
-
-## Hocs-Libreoffice-Build
-
-Minimal docker image used as a base for hocs-docs-convertor CI/CD builds.
-
-* `Alpine`
-* `openjdk17-jdk` 
-* `curl`
-* `libreoffice`
-
-Published to https://quay.io/repository/ukhomeofficedigital/hocs-libreoffice-build
