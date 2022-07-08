@@ -2,32 +2,13 @@ name: 'Docker Build Tag'
 on:
   pull_request:
     types: [ closed ]
-  workflow_dispatch:
-    inputs:
-      increment:
-        description: 'SemVer Increment Value'
-        required: true
-        type: choice
-        default: 'patch'
-        options:
-          - patch
-          - minor
-          - major
 
 jobs:
-  publish:
-    name: 'Main Publish'
+  calculate:
+    name: 'Calculate Semver Tag'
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - dockerfile: './base/Dockerfile'
-            image: 'quay.io/ukhomeofficedigital/hocs-base-image'
-          - dockerfile: './base-build/Dockerfile'
-            image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
-          - dockerfile: './libreoffice-base/Dockerfile'
-            image: 'quay.io/ukhomeofficedigital/hocs-libreoffice'
+    outputs:
+      semver: ${{ steps.increment.outputs.version }}
     if: |
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'skip-release') == false
@@ -39,6 +20,30 @@ jobs:
           labels: minor,major,patch
           mode: singular
 
+      - name: Calculate SemVer increment
+        id: increment
+        uses: UKHomeOffice/semver-tag-action@v2
+        with:
+          increment: ${{ steps.label.outputs.matchedLabels }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_use_head_tag: ${{ github.base_ref == 'main' }}
+          dry_run: true
+
+  publish:
+    name: 'Main Publish'
+    runs-on: ubuntu-latest
+    needs: calculate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: './base/Dockerfile'
+            image: 'quay.io/ukhomeofficedigital/hocs-base-image'
+          - dockerfile: './base-build/Dockerfile'
+            image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
+          - dockerfile: './libreoffice-base/Dockerfile'
+            image: 'quay.io/ukhomeofficedigital/hocs-libreoffice'
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -49,22 +54,13 @@ jobs:
           username: ${{ secrets.QUAY_ROBOT_USER_NAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
-      - name: Calculate SemVer increment
-        id: increment
-        uses: UKHomeOffice/semver-tag-action@v2
-        with:
-          increment: ${{ steps.label.outputs.matchedLabels }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_use_head_tag: ${{ github.base_ref == 'main' }}
-          dry_run: true
-
       - name: Calculate metadata
         id: meta
         uses: docker/metadata-action@v4
         with:
           images: ${{ matrix.image }}
           tags: |
-            type=raw,value=${{steps.increment.outputs.version}}
+            type=raw,value=${{ needs.calculate.outputs.semver }}
             type=raw,value=latest,enable=${{ github.base_ref == 'main' }}
 
       - name: Build container
@@ -76,10 +72,15 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+  tag:
+    name: 'Main Tag'
+    runs-on: ubuntu-latest
+    needs: publish
+    steps:
       - name: Tag repository with SemVer
         uses: UKHomeOffice/semver-tag-action@v2
         with:
-          tag: ${{steps.increment.outputs.version}}
+          tag: ${{ needs.calculate.outputs.semver }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_use_head_tag: ${{ github.base_ref == 'main' }}
 
