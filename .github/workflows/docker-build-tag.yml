@@ -2,7 +2,7 @@ name: 'Docker Build Tag'
 on:
   push:
     tags:
-      - '[0-9]{1,}.[0-9]{1,}.[0-9]{1,}'
+      - '*'
 
 jobs:
   publish:
