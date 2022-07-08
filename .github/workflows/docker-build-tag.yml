@@ -1,18 +1,8 @@
 name: 'Docker Build Tag'
 on:
-  pull_request:
-    types: [ closed ]
-  workflow_dispatch:
-    inputs:
-      increment:
-        description: 'SemVer Increment Value'
-        required: true
-        type: choice
-        default: 'patch'
-        options:
-          - patch
-          - minor
-          - major
+  push:
+    tags:
+      - '[0-9]{1,}.[0-9]{1,}.[0-9]{1,}'
 
 jobs:
   publish:
@@ -32,13 +22,6 @@ jobs:
       github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'skip-release') == false
     steps:
-      - name: Parse the SemVer label
-        id: label
-        uses: UKHomeOffice/match-label-action@v1
-        with:
-          labels: minor,major,patch
-          mode: singular
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -48,15 +31,6 @@ jobs:
           registry: quay.io
           username: ${{ secrets.QUAY_ROBOT_USER_NAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
-
-      - name: Calculate SemVer increment
-        id: increment
-        uses: UKHomeOffice/semver-tag-action@v2
-        with:
-          increment: ${{ steps.label.outputs.matchedLabels }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_use_head_tag: ${{ github.base_ref == 'main' }}
-          dry_run: true
 
       - name: Calculate metadata
         id: meta
@@ -75,13 +49,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Tag repository with SemVer
-        uses: UKHomeOffice/semver-tag-action@v2
-        with:
-          tag: ${{steps.increment.outputs.version}}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_use_head_tag: ${{ github.base_ref == 'main' }}
 
       - name: Post failure to Slack channel
         id: slack
