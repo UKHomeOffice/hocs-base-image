@@ -38,8 +38,7 @@ jobs:
         with:
           images: ${{ matrix.image }}
           tags: |
-            type=raw,value=${{steps.increment.outputs.version}}
-            type=raw,value=latest,enable=${{ github.base_ref == 'main' }}
+            type=semver,pattern={{version}}
 
       - name: Build container
         uses: docker/build-push-action@v3
