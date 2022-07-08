@@ -18,9 +18,6 @@ jobs:
             image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
           - dockerfile: './libreoffice-base/Dockerfile'
             image: 'quay.io/ukhomeofficedigital/hocs-libreoffice'
-    if: |
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'skip-release') == false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
