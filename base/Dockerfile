@@ -1,11 +1,7 @@
-FROM alpine:3.16.0
-
-USER 0
+FROM eclipse-temurin:17-jre-alpine as base
 
 RUN addgroup -S group_hocs && adduser -S -u 10000 user_hocs -G group_hocs -h /app
 
-RUN apk add --no-cache openjdk17-jre
+FROM base as libreoffice
 
-USER 10000
-
-WORKDIR /app
+RUN apk add --no-cache msttcorefonts-installer fontconfig libreoffice && update-ms-fonts

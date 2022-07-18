@@ -13,10 +13,13 @@ jobs:
         include:
           - dockerfile: './base/Dockerfile'
             image: 'quay.io/ukhomeofficedigital/hocs-base-image'
-          - dockerfile: './base-build/Dockerfile'
-            image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
-          - dockerfile: './libreoffice-base/Dockerfile'
+            target: 'base'
+          - dockerfile: './base/Dockerfile'
             image: 'quay.io/ukhomeofficedigital/hocs-libreoffice'
+            target: 'libreoffice'
+          - dockerfile: './build/Dockerfile'
+            image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
+            target: 'build'
     if: contains(github.event.pull_request.labels.*.name, 'smoketest') == true
     steps:
       - name: Checkout repository
@@ -42,6 +45,7 @@ jobs:
         with:
           context: .
           file: ${{ matrix.dockerfile }}
+          target: ${{ matrix.target }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
