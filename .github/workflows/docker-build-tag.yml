@@ -49,10 +49,13 @@ jobs:
         include:
           - dockerfile: './base/Dockerfile'
             image: 'quay.io/ukhomeofficedigital/hocs-base-image'
-          - dockerfile: './base-build/Dockerfile'
-            image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
-          - dockerfile: './libreoffice-base/Dockerfile'
+            target: 'base'
+          - dockerfile: './base/Dockerfile'
             image: 'quay.io/ukhomeofficedigital/hocs-libreoffice'
+            target: 'libreoffice'
+          - dockerfile: './build/Dockerfile'
+            image: 'quay.io/ukhomeofficedigital/hocs-base-image-build'
+            target: 'build'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -72,12 +75,12 @@ jobs:
           tags: |
             type=raw,value=${{ needs.calculate.outputs.semver }}
             type=raw,value=latest,enable=${{ github.base_ref == 'main' }}
-
       - name: Build container
         uses: docker/build-push-action@v3
         with:
           context: .
           file: ${{ matrix.dockerfile }}
+          target: ${{ matrix.target }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
