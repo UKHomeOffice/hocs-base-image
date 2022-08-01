@@ -22,12 +22,11 @@ jobs:
 
       - name: Calculate SemVer increment
         id: increment
-        uses: UKHomeOffice/semver-tag-action@v2
+        uses: UKHomeOffice/semver-calculate-action@v1
         with:
           increment: ${{ steps.label.outputs.matchedLabels }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_use_head_tag: ${{ github.base_ref == 'main' }}
-          dry_run: true
+          default_to_highest: ${{ github.base_ref == 'main' }}
 
       - name: Post failure to Slack channel
         id: slack
@@ -75,6 +74,7 @@ jobs:
           tags: |
             type=raw,value=${{ needs.calculate.outputs.semver }}
             type=raw,value=latest,enable=${{ github.base_ref == 'main' }}
+
       - name: Build container
         uses: docker/build-push-action@v3
         with:
@@ -101,11 +101,10 @@ jobs:
     needs: [ calculate, publish ]
     steps:
       - name: Tag repository with SemVer
-        uses: UKHomeOffice/semver-tag-action@v2
+        uses: UKHomeOffice/semver-tag-action@v3
         with:
           tag: ${{ needs.calculate.outputs.semver }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_use_head_tag: ${{ github.base_ref == 'main' }}
 
       - name: Post failure to Slack channel
         id: slack
