@@ -1,9 +1,20 @@
+FROM eclipse-temurin:18-jre-jammy as builder
 
+RUN groupadd -r group_hocs && \
+    useradd -r -u 10000 -g group_hocs user_hocs -d /app && \
+    mkdir -p /app && \
+    chown -R user_hocs:group_hocs /app
 
-FROM eclipse-temurin:18-jre-alpine as base
+RUN apt-get update && \
+    apt-get upgrade -y
 
-RUN addgroup -S group_hocs && adduser -S -u 10000 user_hocs -G group_hocs -h /app
+FROM builder as base
 
-FROM base as libreoffice
+RUN apt-get clean
 
-RUN apk add --no-cache msttcorefonts-installer fontconfig libreoffice && update-ms-fonts
+FROM builder as libreoffice
+
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository ppa:libreoffice/ppa && \
+    apt-get install libreoffice --no-install-recommends  --no-install-suggests -y && \
+    apt-get clean
