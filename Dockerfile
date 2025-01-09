@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.13.11-jre-jammy
+FROM eclipse-temurin:17.0.13_11-jre-jammy
 
 RUN groupadd -r group_hocs && \
     useradd -r -u 10000 -g group_hocs user_hocs -d /app && \
